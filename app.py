@@ -1,10 +1,14 @@
+#!/usr/local/bin/python3
+
 from game import Game
 from tkinter import Tk, Frame, Label, CENTER
 from time import sleep
 
-SIZE = 500
 GRID_LEN = 4
-GRID_PADDING = 10
+GRID_PADDING = 8
+FONT_SIZE = 40
+LABEL_WIDTH = 4
+LABEL_HEIGHT = 2
 
 BACKGROUND_COLOR_GAME = "#92877d"
 BACKGROUND_COLOR_CELL_EMPTY = "#9e948a"
@@ -18,7 +22,7 @@ CELL_COLOR_DICT = {
     16: "#f9f6f2", 32: "#f9f6f2", 64: "#f9f6f2", 128: "#f9f6f2",
     256: "#f9f6f2", 512: "#f9f6f2", 1024: "#f9f6f2", 2048: "#f9f6f2"
 }
-FONT = ("Verdana", 40, "bold")
+FONT = ("Verdana", FONT_SIZE, "bold")
 
 KEY_RESET = "r"
 KEY_UP = "w"
@@ -94,9 +98,7 @@ class App(Frame):
     def init_grid(self):
         background = Frame(
             self,
-            bg=BACKGROUND_COLOR_GAME,
-            width=SIZE,
-            height=SIZE,
+            bg=BACKGROUND_COLOR_GAME
         )
         background.grid()
         for row in range(GRID_LEN):
@@ -105,7 +107,10 @@ class App(Frame):
                 cell = Label(
                     background,
                     bg=BACKGROUND_COLOR_CELL_EMPTY,
-                    width=SIZE//GRID_LEN, height=SIZE//GRID_LEN
+                    justify=CENTER,
+                    font=FONT,
+                    width=LABEL_WIDTH,
+                    height=LABEL_HEIGHT
                 )
                 cell.grid(
                     row=row,
@@ -113,17 +118,7 @@ class App(Frame):
                     padx=GRID_PADDING,
                     pady=GRID_PADDING
                 )
-                t = Label(
-                    master=cell,
-                    text="",
-                    bg=BACKGROUND_COLOR_CELL_EMPTY,
-                    justify=CENTER,
-                    font=FONT,
-                    width=4,
-                    height=2
-                )
-                t.grid()
-                grid_row.append(t)
+                grid_row.append(cell)
             self.grid_cells.append(grid_row)
 
 
