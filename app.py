@@ -24,28 +24,27 @@ CELL_COLOR_DICT = {
 }
 FONT = ("Verdana", FONT_SIZE, "bold")
 
-KEY_RESET = "r"
-KEY_UP = "w"
-KEY_DOWN = "s"
-KEY_LEFT = "a"
-KEY_RIGHT = "d"
-KEY_QUIT = "q"
+KEY_QUIT = 'q'
+KEY_RESET = 'r'
+KEY_UP = 'Up'
+KEY_DOWN = 'Down'
+KEY_RIGHT = 'Right'
+KEY_LEFT = 'Left'
 
 
-class App(Frame):
-    def __init__(self, master=None):
+class App:
+    def __init__(self):
         super().__init__()
-        self.grid()
-        self.master = master
+        self.master = Tk()
         self.lift_window()
         self.add_listen_key_event()
-        self.init_score_label()
         self.grid_cells = []
         self.init_grid()
+        self.init_score_label()
         self.game = Game()
         self.commands = {
             KEY_RESET: self.game.reset,
-            KEY_QUIT: self.quit,
+            KEY_QUIT: self.master.quit,
             KEY_UP: self.game.move_up,
             KEY_DOWN: self.game.move_down,
             KEY_LEFT: self.game.move_left,
@@ -53,6 +52,9 @@ class App(Frame):
         }
 
         self.game_start()
+
+    def run(self):
+        self.master.mainloop()
 
     def lift_window(self):
         self.master.title('2048')
@@ -67,14 +69,17 @@ class App(Frame):
         self.master.bind("<Key>", self.listen_key)
 
     def listen_key(self, e):
-        key = e.char
         if self.game.over:
             self.score_label.configure(
                 text='Game over, your final score is {}'.format(
                     self.game.score)
             )
-        if key in self.commands:
+
+        if e.char in self.commands:
             self.commands[e.char]()
+
+        if e.keysym in self.commands:
+            self.commands[e.keysym]()
             self.game.newTile()
             self.update_cells_values()
 
@@ -97,7 +102,7 @@ class App(Frame):
 
     def init_grid(self):
         background = Frame(
-            self,
+            self.master,
             bg=BACKGROUND_COLOR_GAME
         )
         background.grid()
@@ -122,6 +127,5 @@ class App(Frame):
             self.grid_cells.append(grid_row)
 
 
-root = Tk()
-app = App(root)
-root.mainloop()
+if __name__ == '__main__':
+    App().run()
