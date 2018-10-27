@@ -22,6 +22,7 @@ CELL_COLOR_DICT = {
     16: "#f9f6f2", 32: "#f9f6f2", 64: "#f9f6f2", 128: "#f9f6f2",
     256: "#f9f6f2", 512: "#f9f6f2", 1024: "#f9f6f2", 2048: "#f9f6f2"
 }
+
 FONT = ("Verdana", FONT_SIZE, "bold")
 
 KEY_QUIT = 'q'
@@ -33,8 +34,9 @@ KEY_LEFT = 'Left'
 
 
 class App:
-    def __init__(self):
+    def __init__(self, font=FONT):
         super().__init__()
+        self.font = font
         self.master = Tk()
         self.lift_window()
         self.add_listen_key_event()
@@ -113,7 +115,7 @@ class App:
                     background,
                     bg=BACKGROUND_COLOR_CELL_EMPTY,
                     justify=CENTER,
-                    font=FONT,
+                    font=self.font,
                     width=LABEL_WIDTH,
                     height=LABEL_HEIGHT
                 )
